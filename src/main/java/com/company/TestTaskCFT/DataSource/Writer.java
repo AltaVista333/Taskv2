@@ -25,8 +25,6 @@ public class Writer implements AutoCloseable {
         } catch (IOException e) {
             throw new RuntimeException("Can't write in file");
         }
-
-
     }
 
     @Override

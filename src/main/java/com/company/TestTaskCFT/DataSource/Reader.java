@@ -20,7 +20,6 @@ public class Reader implements AutoCloseable {
             readedLine = reader.readLine();
             return readedLine != null;
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException("Error reading file");
         }
     }
