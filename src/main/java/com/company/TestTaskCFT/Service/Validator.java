@@ -5,6 +5,8 @@ import java.util.Optional;
 
 public class Validator {
 
+    public static int MINIMAL_TRIANGLE_COORDINATES_COUNT = 6;
+
     public static boolean validateCoordinates(int[] array, int quantityCoordinates){
         return array.length == quantityCoordinates;
     }

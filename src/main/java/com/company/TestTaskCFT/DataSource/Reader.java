@@ -1,13 +1,8 @@
-package com.company.TestTaskCFT.DAO;
+package com.company.TestTaskCFT.DataSource;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.Iterator;
+import java.io.*;
 
-
-public class Reader implements Iterator<String>, AutoCloseable {
+public class Reader implements AutoCloseable {
 
     private BufferedReader reader;
     private String readedLine;
@@ -18,29 +13,29 @@ public class Reader implements Iterator<String>, AutoCloseable {
         } catch (FileNotFoundException e) {
             throw new RuntimeException("File not found : " + sourceFile);
         }
-
     }
 
-    @Override
     public boolean hasNext() {
         try {
             readedLine = reader.readLine();
-            if (readedLine == null) {
-                close();
-            }
             return readedLine != null;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("Error reading file");
         }
     }
 
-    @Override
     public String next() {
         return readedLine;
     }
 
-    @Override
-    public void close() throws Exception {
-        reader.close();
+    public void close() throws IOException {
+        try {
+            reader.close();
+        } finally {
+            if (reader != null){
+                reader.close();
+            }
+        }
     }
 }

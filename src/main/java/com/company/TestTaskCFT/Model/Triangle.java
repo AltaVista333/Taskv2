@@ -5,7 +5,7 @@ import com.company.TestTaskCFT.Service.Validator;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Triangle {
+public class Triangle implements Comparable<Triangle>{
 
     private final int[] coordinates;
     private final int x1,x2,x3,y1,y2,y3;
@@ -82,5 +82,10 @@ public class Triangle {
     @Override
     public int hashCode() {
         return Objects.hash(x1, x2, x3, y1, y2, y3);
+    }
+
+    @Override
+    public int compareTo(Triangle o) {
+        return (int) (this.getArea() - o.getArea());
     }
 }
