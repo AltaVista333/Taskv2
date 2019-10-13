@@ -21,6 +21,7 @@ public class Writer implements AutoCloseable {
         try {
             writer.write(s);
             writer.newLine();
+            writer.flush();
         } catch (IOException e) {
             throw new RuntimeException("Can't write in file");
         }
