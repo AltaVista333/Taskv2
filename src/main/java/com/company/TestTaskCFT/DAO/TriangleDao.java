@@ -58,6 +58,7 @@ public class TriangleDao {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .filter(x -> Validator.validateCoordinates(x, Validator.MINIMAL_TRIANGLE_COORDINATES_COUNT))
+                .filter(Triangle::isTriangle)
                 .map(Triangle::new);
     }
 
