@@ -4,6 +4,8 @@ import com.company.TestTaskCFT.DAO.TriangleDao;
 import com.company.TestTaskCFT.DataSource.DataSource;
 import com.company.TestTaskCFT.DataSource.FileDataSource;
 import com.company.TestTaskCFT.Model.Triangle;
+import com.company.TestTaskCFT.View.ConsoleView;
+import com.company.TestTaskCFT.View.View;
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class Main {
         String input = args[0];
         String output = args[1];
 
+        View view = new ConsoleView();
         try {
             DataSource dataSource = new FileDataSource(input, output);
             TriangleDao triangleDao = new TriangleDao(dataSource);
@@ -26,7 +29,7 @@ public class Main {
             triangleDao.saveTriangles(triangleList);
             dataSource.close();
         } catch (Exception e) {
-            ConsoleView.consoleLog(e.getMessage());
+            view.log(e.getMessage());
             System.exit(-1);
         }
     }
