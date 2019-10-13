@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class Writer implements AutoCloseable {
 
-    private final BufferedWriter writer;
+    private BufferedWriter writer;
 
     public Writer(String outFile) {
         try {
@@ -33,7 +33,9 @@ public class Writer implements AutoCloseable {
         try {
             writer.close();
         } finally {
-            writer.close();
+            if (writer != null) {
+                writer.close();
+            }
         }
     }
 }

@@ -22,7 +22,7 @@ public class Main {
         try {
             DataSource dataSource = new FileDataSource(args[0], args[1]);
             TriangleDao triangleDao = new TriangleDao(dataSource);
-            List<Triangle> triangleList = triangleDao.getAllMaxAreaTriangles();
+            List<Triangle> triangleList = triangleDao.getAllMaxAreaIsoscelesTriangles();
             triangleDao.saveTriangles(triangleList);
             dataSource.close();
             view.log("The program ended successfully. Data recorded.");

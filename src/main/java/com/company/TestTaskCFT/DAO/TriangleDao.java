@@ -57,16 +57,18 @@ public class TriangleDao {
                 .map(Validator::StringToIntArrayConverter)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .filter(x -> Validator.validateCoordinates(x, Validator.MINIMAL_TRIANGLE_COORDINATES_COUNT))
+                .filter(x -> Validator.validateCoordinates(x, Validator.TRIANGLE_COORDINATES_COUNT))
                 .filter(Triangle::isTriangle)
                 .map(Triangle::new);
     }
 
-    public Optional<Triangle> getMaxAreaTriangle() {
-        return getAllTrianglesFromDataSource().max(Comparator.comparing(Triangle::getArea));
+    public Optional<Triangle> getMaxAreaIsoscelesTriangle() {
+        return getAllTrianglesFromDataSource()
+                .filter(Triangle::isTriangleIsosceles)
+                .max(Comparator.comparing(Triangle::getArea));
     }
 
-    public List<Triangle> getAllMaxAreaTriangles() {
+    public List<Triangle> getAllMaxAreaIsoscelesTriangles() {
         return getAllTrianglesFromDataSource()
                 .filter(Triangle::isTriangleIsosceles)
                 .collect(collector(Comparator.comparing(Triangle::getArea)));

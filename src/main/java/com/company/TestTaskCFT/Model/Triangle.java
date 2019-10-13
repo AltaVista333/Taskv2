@@ -1,7 +1,6 @@
 package com.company.TestTaskCFT.Model;
 
 import com.company.TestTaskCFT.Service.Validator;
-
 import java.util.Objects;
 
 public class Triangle implements Comparable<Triangle> {
