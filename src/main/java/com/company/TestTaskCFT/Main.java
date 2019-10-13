@@ -12,22 +12,21 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-
+        View view = new ConsoleView();
+        view.log("The programm started");
         if (args.length != 2) {
-            System.out.println("Please write input and output file names");
+            view.log("Please write input and output file names");
             System.exit(-1);
         }
-
-        String input = args[0];
-        String output = args[1];
-
-        View view = new ConsoleView();
+        view.log("Input file : " + args[0] + ". Output file: " + args[1] + ".");
         try {
-            DataSource dataSource = new FileDataSource(input, output);
+            DataSource dataSource = new FileDataSource(args[0], args[1]);
             TriangleDao triangleDao = new TriangleDao(dataSource);
             List<Triangle> triangleList = triangleDao.getAllMaxAreaTriangles();
             triangleDao.saveTriangles(triangleList);
             dataSource.close();
+            view.log("The program ended successfully. Data recorded.");
+
         } catch (Exception e) {
             view.log(e.getMessage());
             System.exit(-1);
