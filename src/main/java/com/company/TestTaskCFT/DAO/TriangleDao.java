@@ -3,12 +3,10 @@ package com.company.TestTaskCFT.DAO;
 import com.company.TestTaskCFT.DataSource.DataSource;
 import com.company.TestTaskCFT.Model.Triangle;
 import com.company.TestTaskCFT.Service.Validator;
+import com.company.TestTaskCFT.Utility.TriangleCollector;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -20,36 +18,6 @@ public class TriangleDao {
         this.dataSource = dataSource;
     }
 
-    private static <T> Collector<T, ?, List<T>> collector(Comparator<? super T> comp) {
-        return Collector.of(
-                ArrayList::new,
-                (list, t) -> {
-                    int c;
-                    if (list.isEmpty() || (c = comp.compare(t, list.get(0))) == 0) {
-                        list.add(t);
-                    } else if (c > 0) {
-                        list.clear();
-                        list.add(t);
-                    }
-                },
-                (list1, list2) -> {
-                    if (list1.isEmpty()) {
-                        return list2;
-                    }
-                    if (list2.isEmpty()) {
-                        return list1;
-                    }
-                    int r = comp.compare(list1.get(0), list2.get(0));
-                    if (r < 0) {
-                        return list2;
-                    } else if (r > 0) {
-                        return list1;
-                    } else {
-                        list1.addAll(list2);
-                        return list1;
-                    }
-                });
-    }
 
     public Stream<Triangle> getAllTrianglesFromDataSource() {
         Iterable<String> iterable = () -> dataSource;
@@ -65,18 +33,26 @@ public class TriangleDao {
     public Optional<Triangle> getMaxAreaIsoscelesTriangle() {
         return getAllTrianglesFromDataSource()
                 .filter(Triangle::isTriangleIsosceles)
-                .max(Comparator.comparing(Triangle::getArea));
+                .max(Triangle::compareTo);
     }
 
     public List<Triangle> getAllMaxAreaIsoscelesTriangles() {
         return getAllTrianglesFromDataSource()
                 .filter(Triangle::isTriangleIsosceles)
-                .collect(collector(Comparator.comparing(Triangle::getArea)));
+                .collect(TriangleCollector.collector(Triangle::compareTo));
     }
 
     public void saveTriangles(List<Triangle> list) {
         list.stream()
                 .map(Triangle::toString)
                 .forEach(dataSource::write);
+    }
+
+    public void saveTriangle(Optional<Triangle> triangle) {
+        if (triangle.isPresent()) {
+            dataSource.write(triangle.get().toString());
+        } else {
+            dataSource.write("");
+        }
     }
 }

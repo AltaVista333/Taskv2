@@ -8,22 +8,29 @@ import com.company.TestTaskCFT.View.ConsoleView;
 import com.company.TestTaskCFT.View.View;
 
 import java.util.List;
+import java.util.Optional;
 
-public class Main {
+public class MainController {
 
     public static void main(String[] args) {
         View view = new ConsoleView();
         view.log("The programm started");
-        if (args.length != 2) {
-            view.log("Please write input and output file names");
+        if (args.length < 2) {
+            view.log("Please write input and output file names as command-line arguments.");
             System.exit(-1);
         }
         view.log("Input file : " + args[0] + ". Output file: " + args[1] + ".");
         try {
             DataSource dataSource = new FileDataSource(args[0], args[1]);
             TriangleDao triangleDao = new TriangleDao(dataSource);
-            List<Triangle> triangleList = triangleDao.getAllMaxAreaIsoscelesTriangles();
-            triangleDao.saveTriangles(triangleList);
+            if (args.length == 3 && "all".equals(args[2])){
+                List<Triangle> triangleList = triangleDao.getAllMaxAreaIsoscelesTriangles();
+                triangleDao.saveTriangles(triangleList);
+            } else {
+                Optional<Triangle> maxAreaIsoscelesTriangle = triangleDao.getMaxAreaIsoscelesTriangle();
+                triangleDao.saveTriangle(maxAreaIsoscelesTriangle);
+
+            }
             dataSource.close();
             view.log("The program ended successfully. Data recorded.");
 
