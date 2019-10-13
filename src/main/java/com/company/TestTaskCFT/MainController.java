@@ -23,17 +23,15 @@ public class MainController {
         try {
             DataSource dataSource = new FileDataSource(args[0], args[1]);
             TriangleDao triangleDao = new TriangleDao(dataSource);
-            if (args.length == 3 && "all".equals(args[2])){
+            if (args.length == 3 && "all".equals(args[2])) {
                 List<Triangle> triangleList = triangleDao.getAllMaxAreaIsoscelesTriangles();
-                triangleDao.saveTriangles(triangleList);
+                triangleList.forEach(triangleDao::saveTriangle);
             } else {
                 Optional<Triangle> maxAreaIsoscelesTriangle = triangleDao.getMaxAreaIsoscelesTriangle();
-                triangleDao.saveTriangle(maxAreaIsoscelesTriangle);
-
+                maxAreaIsoscelesTriangle.ifPresent(triangleDao::saveTriangle);
             }
             dataSource.close();
             view.log("The program ended successfully. Data recorded.");
-
         } catch (Exception e) {
             view.log(e.getMessage());
             System.exit(-1);

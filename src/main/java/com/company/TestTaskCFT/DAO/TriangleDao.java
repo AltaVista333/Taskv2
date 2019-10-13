@@ -42,17 +42,9 @@ public class TriangleDao {
                 .collect(TriangleCollector.collector(Triangle::compareTo));
     }
 
-    public void saveTriangles(List<Triangle> list) {
-        list.stream()
-                .map(Triangle::toString)
-                .forEach(dataSource::write);
-    }
-
-    public void saveTriangle(Optional<Triangle> triangle) {
-        if (triangle.isPresent()) {
-            dataSource.write(triangle.get().toString());
-        } else {
-            dataSource.write("");
+    public void saveTriangle(Triangle triangle) {
+        if (triangle != null) {
+            dataSource.write(triangle.toString());
         }
     }
 }
