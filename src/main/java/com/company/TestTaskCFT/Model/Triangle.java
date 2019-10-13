@@ -2,13 +2,12 @@ package com.company.TestTaskCFT.Model;
 
 import com.company.TestTaskCFT.Service.Validator;
 
-import java.util.Arrays;
 import java.util.Objects;
 
-public class Triangle implements Comparable<Triangle>{
+public class Triangle implements Comparable<Triangle> {
 
     private final int[] coordinates;
-    private final int x1,x2,x3,y1,y2,y3;
+    private final int x1, x2, x3, y1, y2, y3;
 
     public Triangle(int[] coordinates) {
         this.coordinates = coordinates;
@@ -20,29 +19,10 @@ public class Triangle implements Comparable<Triangle>{
         y3 = this.coordinates[5];
     }
 
-    public boolean compareByArea(Triangle triangle) {
-        return triangle.getArea() > this.getArea();
-    }
-
-
-    public double getArea(){
-        return 0.5 * Math.abs((x1 - x3) * (y2 - y3) - (y1 - y3) * (x2 - x3));
-    }
-
-    public boolean isTriangleIsosceles() {
-        int a = (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
-        int b = (x1 - x3) * (x1 - x3) + (y1 - y3) * (y1 - y3);
-        int c = (x2 - x3) * (x2 - x3) + (y2 - y3) * (y2 - y3);
-
-        return a == c || b == c || a == b;
-    }
-
-    public static boolean isTriangle(int[] coordinates){
-
-        if (!Validator.validateCoordinates(coordinates, 6)){
+    public static boolean isTriangle(int[] coordinates) {
+        if (!Validator.validateCoordinates(coordinates, 6)) {
             return false;
         }
-
         int x1 = coordinates[0];
         int y1 = coordinates[1];
         int x2 = coordinates[2];
@@ -55,6 +35,18 @@ public class Triangle implements Comparable<Triangle>{
         int c = (x2 - x3) * (x2 - x3) + (y2 - y3) * (y2 - y3);
 
         return a + b > c || a + c > b || b + c > a;
+    }
+
+    public double getArea() {
+        return 0.5 * Math.abs((x1 - x3) * (y2 - y3) - (y1 - y3) * (x2 - x3));
+    }
+
+    public boolean isTriangleIsosceles() {
+        int a = (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
+        int b = (x1 - x3) * (x1 - x3) + (y1 - y3) * (y1 - y3);
+        int c = (x2 - x3) * (x2 - x3) + (y2 - y3) * (y2 - y3);
+
+        return a == c || b == c || a == b;
     }
 
     public String toString() {
@@ -86,6 +78,6 @@ public class Triangle implements Comparable<Triangle>{
 
     @Override
     public int compareTo(Triangle o) {
-        return (int) (this.getArea() - o.getArea());
+        return (int) (2 * (this.getArea() - o.getArea()));
     }
 }

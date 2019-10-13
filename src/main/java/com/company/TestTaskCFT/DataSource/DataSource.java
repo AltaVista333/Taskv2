@@ -8,5 +8,6 @@ public interface DataSource extends Iterator<String> {
     public boolean hasNext();
     public String next();
     public void write(String s);
+    public void close();
 
 }

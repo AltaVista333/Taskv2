@@ -20,32 +20,6 @@ public class TriangleDao {
         this.dataSource = dataSource;
     }
 
-    public Stream<Triangle> getAllTrianglesFromDataSource() {
-        Iterable<String> iterable = () -> dataSource;
-        return StreamSupport.stream(iterable.spliterator(), false)
-                .map(Validator::StringToIntArrayConverter)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .filter(x -> Validator.validateCoordinates(x, Validator.MINIMAL_TRIANGLE_COORDINATES_COUNT))
-                .map(Triangle::new);
-    }
-
-    public Optional<Triangle> getMaxAreaTriangle() {
-        return getAllTrianglesFromDataSource().max(Comparator.comparing(Triangle::getArea));
-    }
-
-    public List<Triangle> getAllMaxAreaTriangles() {
-        return getAllTrianglesFromDataSource()
-                .filter(Triangle::isTriangleIsosceles)
-                .collect(collector(Comparator.comparing(Triangle::getArea)));
-    }
-
-    public void saveTriangles(List<Triangle> list) {
-        list.stream()
-                .map(Triangle::toString)
-                .forEach(dataSource::write);
-    }
-
     private static <T> Collector<T, ?, List<T>> collector(Comparator<? super T> comp) {
         return Collector.of(
                 ArrayList::new,
@@ -75,5 +49,31 @@ public class TriangleDao {
                         return list1;
                     }
                 });
+    }
+
+    public Stream<Triangle> getAllTrianglesFromDataSource() {
+        Iterable<String> iterable = () -> dataSource;
+        return StreamSupport.stream(iterable.spliterator(), false)
+                .map(Validator::StringToIntArrayConverter)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .filter(x -> Validator.validateCoordinates(x, Validator.MINIMAL_TRIANGLE_COORDINATES_COUNT))
+                .map(Triangle::new);
+    }
+
+    public Optional<Triangle> getMaxAreaTriangle() {
+        return getAllTrianglesFromDataSource().max(Comparator.comparing(Triangle::getArea));
+    }
+
+    public List<Triangle> getAllMaxAreaTriangles() {
+        return getAllTrianglesFromDataSource()
+                .filter(Triangle::isTriangleIsosceles)
+                .collect(collector(Comparator.comparing(Triangle::getArea)));
+    }
+
+    public void saveTriangles(List<Triangle> list) {
+        list.stream()
+                .map(Triangle::toString)
+                .forEach(dataSource::write);
     }
 }

@@ -20,15 +20,14 @@ public class Main {
         String output = args[1];
 
         try {
-            DataSource dataSource = new FileDataSource(input,output);
+            DataSource dataSource = new FileDataSource(input, output);
             TriangleDao triangleDao = new TriangleDao(dataSource);
             List<Triangle> triangleList = triangleDao.getAllMaxAreaTriangles();
             triangleDao.saveTriangles(triangleList);
-
-        } catch (Exception e){
+            dataSource.close();
+        } catch (Exception e) {
             ConsoleView.consoleLog(e.getMessage());
             System.exit(-1);
         }
-
     }
 }

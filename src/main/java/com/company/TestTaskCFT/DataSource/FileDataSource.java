@@ -2,7 +2,7 @@ package com.company.TestTaskCFT.DataSource;
 
 import java.io.IOException;
 
-public class FileDataSource implements DataSource  {
+public class FileDataSource implements DataSource {
 
     private Reader reader;
     private Writer writer;
@@ -24,12 +24,14 @@ public class FileDataSource implements DataSource  {
         writer.write(s);
     }
 
-    public void close(){
+    public void close() {
         try {
             reader.close();
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException("Error with I/O");
         }
-    };
+    }
+
+    ;
 }

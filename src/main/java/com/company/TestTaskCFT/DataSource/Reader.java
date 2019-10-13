@@ -33,7 +33,7 @@ public class Reader implements AutoCloseable {
         try {
             reader.close();
         } finally {
-            if (reader != null){
+            if (reader != null) {
                 reader.close();
             }
         }
