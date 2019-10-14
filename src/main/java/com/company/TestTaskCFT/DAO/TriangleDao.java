@@ -3,7 +3,7 @@ package com.company.TestTaskCFT.DAO;
 import com.company.TestTaskCFT.DataSource.DataSource;
 import com.company.TestTaskCFT.Model.Triangle;
 import com.company.TestTaskCFT.Service.Validator;
-import com.company.TestTaskCFT.Utility.TriangleCollector;
+import com.company.TestTaskCFT.Utility.Utility;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +25,6 @@ public class TriangleDao {
                 .map(Validator::StringToIntArrayConverter)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .filter(x -> Validator.validateCoordinates(x, Validator.TRIANGLE_COORDINATES_COUNT))
                 .filter(Triangle::isTriangle)
                 .map(Triangle::new);
     }
@@ -39,7 +38,7 @@ public class TriangleDao {
     public List<Triangle> getAllMaxAreaIsoscelesTriangles() {
         return getAllTrianglesFromDataSource()
                 .filter(Triangle::isTriangleIsosceles)
-                .collect(TriangleCollector.collector(Triangle::compareTo));
+                .collect(Utility.collector(Triangle::compareTo));
     }
 
     public void saveTriangle(Triangle triangle) {

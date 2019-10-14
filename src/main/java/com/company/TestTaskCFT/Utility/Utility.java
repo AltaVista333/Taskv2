@@ -5,9 +5,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collector;
 
-public class TriangleCollector {
+public class Utility {
 
-    public static <Triangle> Collector<Triangle, List<Triangle>, List<Triangle>> collector(Comparator<Triangle> comp) {
+    public static <T> Collector<T, List<T>, List<T>> collector(Comparator<T> comp) {
         return Collector.of(
                 ArrayList::new,
                 (list, t) -> {
