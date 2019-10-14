@@ -1,39 +1,37 @@
 package com.company.TestTaskCFT.Utility;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collector;
 
 public class Utility {
 
-    public static <T> Collector<T, List<T>, List<T>> collector(Comparator<T> comp) {
+    public static <T> Collector<T, TreeSet<T>, TreeSet<T>> collectorSet(Comparator<T> comp) {
         return Collector.of(
-                ArrayList::new,
-                (list, t) -> {
+                TreeSet::new,
+                (set, t) -> {
                     int c;
-                    if (list.isEmpty() || (c = comp.compare(t, list.get(0))) == 0) {
-                        list.add(t);
+                    if (set.isEmpty() || (c = comp.compare(t, set.first())) == 0) {
+                        set.add(t);
                     } else if (c > 0) {
-                        list.clear();
-                        list.add(t);
+                        set.clear();
+                        set.add(t);
                     }
                 },
-                (list1, list2) -> {
-                    if (list1.isEmpty()) {
-                        return list2;
+                (set1, set2) -> {
+                    if (set1.isEmpty()) {
+                        return set2;
                     }
-                    if (list2.isEmpty()) {
-                        return list1;
+                    if (set2.isEmpty()) {
+                        return set1;
                     }
-                    int c = comp.compare(list1.get(0), list2.get(0));
+                    int c = comp.compare(set1.first(), set2.first());
                     if (c < 0) {
-                        return list2;
+                        return set2;
                     } else if (c > 0) {
-                        return list1;
+                        return set1;
                     } else {
-                        list1.addAll(list2);
-                        return list1;
+                        set1.addAll(set2);
+                        return set1;
                     }
                 });
     }

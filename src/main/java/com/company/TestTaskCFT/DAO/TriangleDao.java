@@ -7,6 +7,8 @@ import com.company.TestTaskCFT.Utility.Utility;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -35,10 +37,11 @@ public class TriangleDao {
                 .max(Triangle::compareTo);
     }
 
-    public List<Triangle> getAllMaxAreaIsoscelesTriangles() {
+
+    public Set<Triangle> getUniqMaxAreaIsoscelesTriangles() {
         return getAllTrianglesFromDataSource()
                 .filter(Triangle::isTriangleIsosceles)
-                .collect(Utility.collector(Triangle::compareTo));
+                .collect(Utility.collectorSet(Triangle::compareTo));
     }
 
     public void saveTriangle(Triangle triangle) {

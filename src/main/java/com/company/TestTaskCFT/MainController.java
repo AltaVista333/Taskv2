@@ -7,8 +7,8 @@ import com.company.TestTaskCFT.Model.Triangle;
 import com.company.TestTaskCFT.View.ConsoleView;
 import com.company.TestTaskCFT.View.View;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class MainController {
 
@@ -24,7 +24,7 @@ public class MainController {
             DataSource dataSource = new FileDataSource(args[0], args[1]);
             TriangleDao triangleDao = new TriangleDao(dataSource);
             if (args.length == 3 && "all".equals(args[2])) {
-                List<Triangle> triangleList = triangleDao.getAllMaxAreaIsoscelesTriangles();
+                Set<Triangle> triangleList = triangleDao.getUniqMaxAreaIsoscelesTriangles();
                 triangleList.forEach(triangleDao::saveTriangle);
             } else {
                 Optional<Triangle> maxAreaIsoscelesTriangle = triangleDao.getMaxAreaIsoscelesTriangle();
