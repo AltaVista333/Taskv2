@@ -1,6 +1,5 @@
 package com.company.TestTaskCFT.Service;
 
-
 import java.util.Optional;
 
 public class Validator {
