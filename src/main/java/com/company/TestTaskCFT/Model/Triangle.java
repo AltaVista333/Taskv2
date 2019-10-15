@@ -2,7 +2,6 @@ package com.company.TestTaskCFT.Model;
 
 import com.company.TestTaskCFT.Service.Validator;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 public class Triangle implements Comparable<Triangle> {
@@ -21,7 +20,7 @@ public class Triangle implements Comparable<Triangle> {
     }
 
     public static boolean isTriangle(int[] coordinates) {
-        if (!Validator.validateCoordinates(coordinates, 6)) {
+        if (!Validator.validateCoordinates(coordinates, Validator.TRIANGLE_COORDINATES_COUNT)) {
             return false;
         }
         int x1 = coordinates[0];
