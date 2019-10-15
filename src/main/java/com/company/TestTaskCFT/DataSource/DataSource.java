@@ -8,5 +8,6 @@ public interface DataSource extends Iterator<String> {
     String next();
     void write(String s);
     void close();
+    void refreshReader();
 
 }

@@ -9,6 +9,7 @@ import com.company.TestTaskCFT.View.View;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public class MainController {
 
@@ -23,9 +24,20 @@ public class MainController {
         try {
             DataSource dataSource = new FileDataSource(args[0], args[1]);
             TriangleDao triangleDao = new TriangleDao(dataSource);
-            if (args.length == 3 && "all".equals(args[2])) {
-                Set<Triangle> triangleList = triangleDao.getUniqMaxAreaIsoscelesTriangles();
-                triangleList.forEach(triangleDao::saveTriangle);
+            if (args.length == 3) {
+                if ("all".equals(args[2])) {
+                    Set<Triangle> triangleSet = triangleDao.getUniqMaxAreaIsoscelesTriangles();
+                    triangleSet.forEach(triangleDao::saveTriangle);
+                }
+                if("allsafe".equals(args[2])){
+                    Optional<Triangle> maxAreaIsoscelesTriangle = triangleDao.getMaxAreaIsoscelesTriangle();
+                    if(maxAreaIsoscelesTriangle.isPresent()){
+                        double area = maxAreaIsoscelesTriangle.get().getArea();
+                        dataSource.refreshReader();
+                        Stream<Triangle> triangleStream = triangleDao.getAllMaxAreaIsoscelesTrianglesStream(area);
+                        triangleStream.forEach(triangleDao::saveTriangle);
+                    }
+                }
             } else {
                 Optional<Triangle> maxAreaIsoscelesTriangle = triangleDao.getMaxAreaIsoscelesTriangle();
                 maxAreaIsoscelesTriangle.ifPresent(triangleDao::saveTriangle);
