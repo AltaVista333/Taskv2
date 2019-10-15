@@ -3,9 +3,8 @@ package com.company.TestTaskCFT.DAO;
 import com.company.TestTaskCFT.DataSource.DataSource;
 import com.company.TestTaskCFT.Model.Triangle;
 import com.company.TestTaskCFT.Service.Validator;
-import com.company.TestTaskCFT.Utility.Utility;
+import com.company.TestTaskCFT.Utility.HashSetCollector;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -21,7 +20,7 @@ public class TriangleDao {
 
     public Stream<Triangle> getAllTrianglesFromDataSourceStream() {
         Iterable<String> iterable = () -> dataSource;
-        return StreamSupport.stream(iterable.spliterator(), false)
+        return StreamSupport.stream(iterable.spliterator(), true)
                 .map(Validator::StringToIntArrayConverter)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
@@ -38,15 +37,14 @@ public class TriangleDao {
     public Set<Triangle> getUniqMaxAreaIsoscelesTriangles() {
         return getAllTrianglesFromDataSourceStream()
                 .filter(Triangle::isTriangleIsosceles)
-                .collect(Utility.collectorHashSet(Triangle::compareTo));
+                .collect(HashSetCollector.collectorHashSet(Triangle::compareTo));
     }
 
-    public Stream<Triangle> getAllMaxAreaIsoscelesTrianglesStream(double triangleArea){
+    public Stream<Triangle> getAllMaxAreaIsoscelesTrianglesStream(double triangleArea) {
         return getAllTrianglesFromDataSourceStream()
                 .filter(Triangle::isTriangleIsosceles)
                 .filter(triangle -> triangle.getArea() == triangleArea);
     }
-
 
     public void saveTriangle(Triangle triangle) {
         if (triangle != null) {

@@ -3,7 +3,7 @@ package com.company.TestTaskCFT.Utility;
 import java.util.*;
 import java.util.stream.Collector;
 
-public class Utility {
+public class HashSetCollector {
 
     public static <T> Collector<T, HashSet<T>, HashSet<T>> collectorHashSet(Comparator<T> comp) {
         return Collector.of(
