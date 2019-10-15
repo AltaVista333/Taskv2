@@ -2,6 +2,7 @@ package com.company.TestTaskCFT.Model;
 
 import com.company.TestTaskCFT.Service.Validator;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Triangle implements Comparable<Triangle> {
@@ -58,7 +59,6 @@ public class Triangle implements Comparable<Triangle> {
         return builder.toString().trim();
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -88,11 +88,13 @@ public class Triangle implements Comparable<Triangle> {
 
     @Override
     public int hashCode() {
-        return 1;
+        return Objects.hash(x1 + x2 + x3, y1 + y2 + y3);
     }
 
     @Override
     public int compareTo(Triangle o) {
         return (int) (2 * (this.getArea() - o.getArea()));
     }
+
+
 }
