@@ -38,7 +38,7 @@ public class TriangleDao {
     public Set<Triangle> getUniqMaxAreaIsoscelesTriangles() {
         return getAllTrianglesFromDataSourceStream()
                 .filter(Triangle::isTriangleIsosceles)
-                .collect(Utility.collectorSet(Triangle::compareTo));
+                .collect(Utility.collectorHashSet(Triangle::compareTo));
     }
 
     public Stream<Triangle> getAllMaxAreaIsoscelesTrianglesStream(double triangleArea){

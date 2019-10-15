@@ -1,6 +1,7 @@
 package com.company.TestTaskCFT.Model;
 
 import com.company.TestTaskCFT.Service.Validator;
+
 import java.util.Objects;
 
 public class Triangle implements Comparable<Triangle> {
@@ -10,12 +11,12 @@ public class Triangle implements Comparable<Triangle> {
 
     public Triangle(int[] coordinates) {
         this.coordinates = coordinates;
-        x1 = this.coordinates[0];
-        y1 = this.coordinates[1];
-        x2 = this.coordinates[2];
-        y2 = this.coordinates[3];
-        x3 = this.coordinates[4];
-        y3 = this.coordinates[5];
+        this.x1 = coordinates[0];
+        this.y1 = coordinates[1];
+        this.x2 = coordinates[2];
+        this.y2 = coordinates[3];
+        this.x3 = coordinates[4];
+        this.y3 = coordinates[5];
     }
 
     public static boolean isTriangle(int[] coordinates) {
@@ -57,22 +58,37 @@ public class Triangle implements Comparable<Triangle> {
         return builder.toString().trim();
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Triangle triangle = (Triangle) o;
-        return x1 == triangle.x1 &&
+        return (x1 == triangle.x1 &&
                 x2 == triangle.x2 &&
                 x3 == triangle.x3 &&
                 y1 == triangle.y1 &&
                 y2 == triangle.y2 &&
-                y3 == triangle.y3;
+                y3 == triangle.y3)
+                ||
+                (x1 == triangle.x2 &&
+                        x2 == triangle.x1 &&
+                        x3 == triangle.x3 &&
+                        y1 == triangle.y2 &&
+                        y2 == triangle.y1 &&
+                        y3 == triangle.y3)
+                ||
+                (x1 == triangle.x3 &&
+                        x2 == triangle.x2 &&
+                        x3 == triangle.x1 &&
+                        y1 == triangle.y3 &&
+                        y2 == triangle.y2 &&
+                        y3 == triangle.y1);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x1, x2, x3, y1, y2, y3);
+        return 1;
     }
 
     @Override
