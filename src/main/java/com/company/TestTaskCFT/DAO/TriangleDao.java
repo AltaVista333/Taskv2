@@ -5,6 +5,7 @@ import com.company.TestTaskCFT.Model.Triangle;
 import com.company.TestTaskCFT.Service.Validator;
 import com.company.TestTaskCFT.Utility.Utility;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -18,7 +19,7 @@ public class TriangleDao {
         this.dataSource = dataSource;
     }
 
-    public Stream<Triangle> getAllTrianglesFromDataSource() {
+    public Stream<Triangle> getAllTrianglesFromDataSourceStream() {
         Iterable<String> iterable = () -> dataSource;
         return StreamSupport.stream(iterable.spliterator(), false)
                 .map(Validator::StringToIntArrayConverter)
@@ -29,16 +30,23 @@ public class TriangleDao {
     }
 
     public Optional<Triangle> getMaxAreaIsoscelesTriangle() {
-        return getAllTrianglesFromDataSource()
+        return getAllTrianglesFromDataSourceStream()
                 .filter(Triangle::isTriangleIsosceles)
                 .max(Triangle::compareTo);
     }
 
     public Set<Triangle> getUniqMaxAreaIsoscelesTriangles() {
-        return getAllTrianglesFromDataSource()
+        return getAllTrianglesFromDataSourceStream()
                 .filter(Triangle::isTriangleIsosceles)
                 .collect(Utility.collectorSet(Triangle::compareTo));
     }
+
+    public Stream<Triangle> getAllMaxAreaIsoscelesTrianglesStream(double triangleArea){
+        return getAllTrianglesFromDataSourceStream()
+                .filter(Triangle::isTriangleIsosceles)
+                .filter(triangle -> triangle.getArea() == triangleArea);
+    }
+
 
     public void saveTriangle(Triangle triangle) {
         if (triangle != null) {
