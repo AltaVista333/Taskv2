@@ -8,13 +8,13 @@ public class Utility {
     public static <T> Collector<T, TreeSet<T>, TreeSet<T>> collectorSet(Comparator<T> comp) {
         return Collector.of(
                 TreeSet::new,
-                (set, t) -> {
+                (set, object) -> {
                     int c;
-                    if (set.isEmpty() || (c = comp.compare(t, set.first())) == 0) {
-                        set.add(t);
+                    if (set.isEmpty() || (c = comp.compare(object, set.first())) == 0) {
+                        set.add(object);
                     } else if (c > 0) {
                         set.clear();
-                        set.add(t);
+                        set.add(object);
                     }
                 },
                 (set1, set2) -> {

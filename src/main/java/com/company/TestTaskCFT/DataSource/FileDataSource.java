@@ -5,9 +5,11 @@ import java.io.IOException;
 public class FileDataSource implements DataSource {
 
     private Reader reader;
+    private String input;
     private Writer writer;
 
     public FileDataSource(String in, String out) {
+        this.input = in;
         this.reader = new Reader(in);
         this.writer = new Writer(out);
     }
@@ -22,6 +24,10 @@ public class FileDataSource implements DataSource {
 
     public void write(String s) {
         writer.write(s);
+    }
+
+    public void refreshReader(){
+        this.reader = new Reader(input);
     }
 
     public void close() {
